@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Chord Progression Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Include Tone.js from a CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <!-- Include @tonejs/midi from a CDN for MIDI export -->
+    <script src="https://unpkg.com/@tonejs/midi@2.0.27/build/Midi.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Random Chord Progression Generator</h1>
+    </header>
+
+    <main>
+        <div class="surprise-me-container">
+            <button id="surpriseMeBtn" class="action-button">Surprise Me!</button>
+        </div>
+
+        <div class="main-content-grid">
+            <aside class="controls-panel">
+                <section id="scaleKeySection" class="control-section">
+                    <h2>1. Scale & Key</h2>
+                    <div class="control-group">
+                        <label for="keySelect">Key:</label>
+                        <select id="keySelect">
+                            <option value="C">C</option>
+                            <option value="C#">C#</option>
+                            <option value="D">D</option>
+                            <option value="D#">D#</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="F#">F#</option>
+                            <option value="G">G</option>
+                            <option value="G#">G#</option>
+                            <option value="A">A</option>
+                            <option value="A#">A#</option>
+                            <option value="B">B</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="scaleTypeSelect">Scale Type:</label>
+                        <select id="scaleTypeSelect">
+                            <option value="MAJOR">Major</option>
+                            <option value="NATURAL_MINOR">Natural Minor</option>
+                            <option value="HARMONIC_MINOR">Harmonic Minor</option>
+                            <option value="MELODIC_MINOR">Melodic Minor (Asc)</option>
+                            <option value="DORIAN">Dorian</option>
+                            <option value="PHYRIGIAN">Phrygian</option>
+                            <option value="LYDIAN">Lydian</option>
+                            <option value="MIXOLYDIAN">Mixolydian</option>
+                            <option value="LOCRIAN">Locrian</option>
+                            <option value="PENTATONIC_MAJOR">Pentatonic Major</option>
+                            <option value="PENTATONIC_MINOR">Pentatonic Minor</option>
+                        </select>
+                    </div>
+                    <button id="randomizeScaleBtn" class="control-button">Randomize Scale</button>
+                </section>
+
+                <section id="chordProgressionSection" class="control-section">
+                    <h2>2. Chord Progression</h2>
+                    <div class="control-group">
+                        <label for="numChordsSlider">Number of Chords (2-8):</label>
+                        <input type="range" id="numChordsSlider" min="2" max="8" value="4">
+                        <span id="numChordsValue">4</span>
+                    </div>
+                    <div class="control-group">
+                        <label for="use7thChordsToggle">Use 7th Chords:</label>
+                        <input type="checkbox" id="use7thChordsToggle">
+                    </div>
+                    <button id="generateProgressionBtn" class="control-button">Generate Progression</button>
+                    <div id="chordDisplay">
+                        <p>Roman Numerals: <span id="romanNumeralDisplay">- - - -</span></p>
+                        <p>Chord Names: <span id="chordNameDisplay">- - - -</span></p>
+                    </div>
+                </section>
+
+                <section id="arpeggiationSection" class="control-section">
+                    <h2>3. Arpeggiation Style</h2>
+                    <div class="control-group">
+                        <label for="arpeggioRhythmSelect">Rhythm:</label>
+                        <select id="arpeggioRhythmSelect">
+                            <option value="eighths">Eighths</option>
+                            <option value="sixteenths">Sixteenths</option>
+                            <option value="triplets">Triplets (8th)</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="arpeggioPatternSelect">Pattern:</label>
+                        <select id="arpeggioPatternSelect">
+                            <option value="none">None (Block Chords)</option>
+                            <option value="up">Up</option>
+                            <option value="down">Down</option>
+                            <option value="upDown">Up-Down</option>
+                            <option value="random">Random</option>
+                        </select>
+                    </div>
+                    <button id="generateArpeggiosBtn" class="control-button">Generate Arpeggios</button>
+                </section>
+
+                <section id="exportSection" class="control-section">
+                    <h2>4. Export</h2>
+                    <button id="exportMidiBtn" class="control-button">Export MIDI</button>
+                    <button id="exportWavBtn" class="control-button">Export WAV</button>
+                </section>
+            </aside>
+
+            <div class="visualization-playback-area">
+                <section id="playbackControls" class="playback-control-bar">
+                    <button id="playStopBtn" class="transport-button">Play</button>
+                    <div class="control-group bpm-control">
+                        <label for="bpmSlider">BPM:</label>
+                        <input type="range" id="bpmSlider" min="60" max="200" value="120">
+                        <input type="number" id="bpmInput" min="60" max="200" value="120" class="bpm-input-field">
+                    </div>
+                    <div class="control-group volume-control">
+                        <label for="volumeSlider">Volume:</label>
+                        <input type="range" id="volumeSlider" min="-60" max="0" value="-6" step="1">
+                        <span id="volumeValue">-6 dB</span>
+                    </div>
+                </section>
+
+                <section id="visualizerContainer">
+                    <div id="pianoKeyboard">
+                        <!-- Piano keys will be dynamically generated here -->
+                        <div class="piano-key white" data-note="C4">C4</div>
+                        <!-- Example, will be replaced -->
+                    </div>
+                    <div id="pianoRoll">
+                        <!-- Note blocks will be dynamically generated here -->
+                        <div class="playhead"></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 AI Chord Generator. Powered by Tone.js.</p>
+    </footer>
+
+    <script src="music-theory.js"></script>
+    <script src="ui-controller.js"></script> <!-- Will create this later -->
+    <script src="script.js"></script>
+</body>
+</html>

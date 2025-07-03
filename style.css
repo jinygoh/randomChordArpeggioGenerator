@@ -1,0 +1,512 @@
+/* Google Font Import - Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* CSS Variables for Theme */
+:root {
+    --background-color: #121212;
+    --surface-color: #1e1e1e; /* For control panels, cards */
+    --primary-text-color: #EAEAEA;
+    --secondary-text-color: #b3b3b3;
+    --accent-color: #00BFFF; /* Electric Blue */
+    /* --accent-color-alt: #1DB954; Modern Green */
+    --border-color: #2a2a2a;
+    --input-background-color: #2c2c2c;
+    --input-border-color: #444;
+    --button-text-color: #FFFFFF;
+    --control-button-bg: #333333;
+    --control-button-hover-bg: #444444;
+    --control-button-active-bg: #555555;
+
+    --font-family-sans: 'Inter', sans-serif;
+
+    --piano-white-key: #f5f5f5;
+    --piano-black-key: #333333;
+    --piano-key-border: #888;
+    --note-block-color: var(--accent-color);
+}
+
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family-sans);
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
+    line-height: 1.6;
+    font-size: 16px; /* Base font size */
+}
+
+header {
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2em;
+    font-weight: 600;
+    color: var(--primary-text-color);
+}
+
+main {
+    max-width: 1400px; /* Max width for the entire app content */
+    margin: 0 auto;
+    padding: 0 20px; /* Side padding for the main container */
+}
+
+.surprise-me-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.action-button { /* For "Surprise Me!" and similar primary actions */
+    padding: 12px 25px;
+    font-size: 1.1em;
+    font-weight: 500;
+    background-color: var(--accent-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.action-button:hover {
+    filter: brightness(0.9);
+}
+
+.action-button:active {
+    filter: brightness(0.8);
+    transform: scale(0.98);
+}
+
+/* Main Layout Grid */
+.main-content-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr; /* Fixed width for controls, rest for visualizer */
+    gap: 20px;
+    align-items: start; /* Align items to the top of their grid cell */
+}
+
+.controls-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between control sections */
+}
+
+.control-section {
+    background-color: var(--surface-color);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.control-section h2 {
+    font-size: 1.3em;
+    font-weight: 500;
+    color: var(--primary-text-color);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.control-group {
+    margin-bottom: 15px;
+}
+
+.control-group label {
+    display: block;
+    font-size: 0.9em;
+    color: var(--secondary-text-color);
+    margin-bottom: 5px;
+}
+
+.control-group select,
+.control-group input[type="range"],
+.control-group input[type="number"],
+.control-group input[type="checkbox"] {
+    width: 100%;
+    padding: 8px;
+    background-color: var(--input-background-color);
+    color: var(--primary-text-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    font-family: var(--font-family-sans);
+}
+.control-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.control-group select:focus,
+.control-group input[type="range"]:focus,
+.control-group input[type="number"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.3); /* Accent color focus ring */
+}
+
+.control-button {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 0.95em;
+    background-color: var(--control-button-bg);
+    color: var(--primary-text-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px; /* Add some space if it's after other controls */
+}
+
+.control-button:hover {
+    background-color: var(--control-button-hover-bg);
+}
+
+.control-button:active {
+    background-color: var(--control-button-active-bg);
+}
+
+/* Chord Display Area */
+#chordDisplay {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: var(--background-color); /* Slightly darker than surface */
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+#chordDisplay p {
+    margin-bottom: 5px;
+    color: var(--secondary-text-color);
+}
+#chordDisplay span {
+    color: var(--primary-text-color);
+    font-weight: 500;
+}
+
+
+/* Visualization & Playback Area */
+.visualization-playback-area {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between playback bar and visualizer */
+    min-height: 500px; /* Ensure it has some height */
+}
+
+.playback-control-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background-color: var(--surface-color);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+.playback-control-bar .control-group {
+    margin-bottom: 0; /* Override default margin */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.playback-control-bar label {
+    margin-bottom: 0; /* Override default margin */
+    font-size: 0.9em;
+}
+.playback-control-bar .bpm-input-field {
+    width: 60px; /* Smaller input for BPM number */
+    padding: 6px;
+}
+.playback-control-bar input[type="range"] {
+    flex-grow: 1; /* Allow sliders to take available space */
+}
+
+.transport-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: var(--accent-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.transport-button:hover {
+    filter: brightness(0.9);
+}
+
+
+/* Visualizer Container (Piano Keyboard + Piano Roll) */
+#visualizerContainer {
+    display: grid;
+    grid-template-columns: auto 1fr; /* Keyboard auto width, Roll takes rest */
+    /*
+       The height of this container will be critical.
+       It might need to be set by JS based on the number of octaves displayed,
+       or use a fixed height with overflow scrolling for the piano roll.
+       For now, let's give it a substantial min-height and allow it to grow.
+    */
+    min-height: 400px; /* Example height */
+    background-color: var(--surface-color); /* Background for the whole visualizer area */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden; /* Important for aligning children and potential scrolling */
+    position: relative; /* For playhead positioning */
+}
+
+#pianoKeyboard {
+    /* Styling for the piano keyboard itself will be added when it's dynamically generated */
+    background-color: #222; /* Darker background for the keyboard area */
+    padding-right: 5px; /* Small gap before the roll starts */
+    display: flex; /* Will be column flex in JS */
+    flex-direction: column-reverse; /* To stack keys from bottom up (C1, C#1, D1...) */
+    /* Actual key styling (white/black) will be more specific */
+}
+
+#pianoRoll {
+    background-color: var(--background-color); /* Darker for the roll grid lines to show */
+    position: relative; /* For note blocks and playhead */
+    overflow-x: auto; /* If content exceeds width */
+    overflow-y: hidden; /* Pitch should be handled by keyboard height */
+    /* Grid lines will be drawn by JS or CSS background */
+}
+
+.playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0; /* JS will update this */
+    width: 2px;
+    background-color: var(--accent-color);
+    z-index: 10;
+}
+
+/* Piano Keyboard Styling */
+#pianoKeyboard {
+    background-color: #1c1c1c; /* Slightly different from surface for distinction */
+    display: flex;
+    flex-direction: column-reverse; /* C2 at bottom, B5 at top */
+    position: relative; /* For black key positioning */
+    border-right: 2px solid var(--border-color); /* Separator from piano roll */
+    /* The height of this container should ideally be determined by the number of keys
+       and the desired height per key, to perfectly align with piano roll rows.
+       This might be set by JS or be a fixed value.
+       Let's assume a fixed height per key for now, and the container grows.
+    */
+}
+
+.piano-key {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align note names to the left (start) */
+    box-sizing: border-box;
+    position: relative; /* For black keys to position relative to white keys */
+    border-bottom: 1px solid var(--piano-key-border); /* Horizontal lines between keys */
+}
+
+.piano-key:last-child {
+    border-bottom: none; /* No border for the topmost key */
+}
+
+.piano-key .note-label {
+    font-size: 0.65em; /* Smaller font for key labels */
+    padding-left: 5px;
+    user-select: none; /* Prevent text selection on labels */
+    white-space: nowrap;
+}
+
+.piano-key.white {
+    background-color: var(--piano-white-key);
+    color: var(--piano-black-key); /* Text color for white keys */
+    width: 100%; /* White keys take full width of the keyboard div */
+    height: 20px; /* This is CRITICAL for alignment. Each semitone row must be this height. */
+    z-index: 1;
+}
+.piano-key.white .note-label {
+    color: #333;
+}
+
+
+.piano-key.black {
+    background-color: var(--piano-black-key);
+    color: var(--piano-white-key); /* Text color for black keys */
+    width: 65%;  /* Black keys are narrower */
+    height: 20px; /* CRITICAL: Black keys occupy the same vertical pitch row height */
+    margin-left: 35%; /* Push them to the right, over the white keys area */
+    border-left: 1px solid #555;
+    border-right: 1px solid #555;
+    border-bottom: 1px solid #555; /* Give them some definition */
+    z-index: 2; /* Black keys sit on top of white keys */
+    /*
+      The black keys effectively "float" over the conceptual rows of the white keys.
+      The #pianoKeyboard is flex-column-reverse.
+      The keys are stacked. C, C#, D, D#, E, F, F#, G, G#, A, A#, B.
+      Each of these takes up one "row" of 20px.
+      The Piano Roll to the right will have rows that are also 20px high.
+      A C# black key is visually "part of" the C# row, even if it looks like it's between C and D.
+      The critical part is that a note at pitch C#4 appears on the same vertical line
+      as the C#4 black key.
+    */
+}
+.piano-key.black .note-label {
+    color: #ccc;
+    padding-left: 3px; /* Slightly less padding for black keys */
+}
+
+/* Highlight active notes (example, will be triggered by JS) */
+.piano-key.active.white {
+    background-color: var(--accent-color);
+    color: white;
+}
+.piano-key.active.black {
+    background-color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    filter: brightness(1.2);
+}
+.piano-key.active .note-label {
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Piano Roll Styling */
+#pianoRoll {
+    background-color: var(--background-color);
+    position: relative; /* For note blocks and playhead */
+    overflow-x: auto;   /* Horizontal scrolling for time */
+    overflow-y: hidden; /* Vertical pitch should be contained by height matching keyboard */
+    display: grid; /* Will use grid for note placement */
+    /* grid-template-rows will be implicitly defined by the number of piano keys (semitones) */
+    /* grid-template-columns will be set by JS based on total measures/subdivisions */
+    border-left: 1px solid var(--border-color); /* If keyboard border isn't enough */
+
+    /* Background Grid Lines */
+    /* A simple way to do faint grid lines. More complex might use repeating linear gradients. */
+    --grid-line-color: rgba(100, 100, 100, 0.2);
+    --beat-line-color: rgba(150, 150, 150, 0.3);
+    --measure-line-color: rgba(200, 200, 200, 0.4);
+    /* This requires knowing the number of columns. JS could also draw these lines if complex. */
+    /* For now, let's assume JS sets grid-template-columns and these are just visual guides. */
+    /* A more robust way for background grid lines if JS sets columns: */
+    /* background-size: calc(100% / var(--total-grid-columns)) 20px; /* 20px is key height */
+    /* background-image: linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
+                      linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px); */
+    /* This is tricky without knowing total columns beforehand for CSS only.
+       The JS will set specific grid-column values for notes, which defines the columns.
+       The background lines are mostly for visual cue when empty or between notes.
+       Let's use a simpler repeating gradient for now, assuming a base subdivision.
+    */
+    --cell-width-approx: 15px; /* Approximate visual width of a 16th note cell */
+    background-image:
+        linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px);
+    background-size: var(--cell-width-approx) 20px; /* 20px matches key height */
+}
+
+/* Draw beat and measure lines with pseudo-elements if JS grid is complex to style directly */
+/* This is an alternative or addition to background-image grid lines */
+/* #pianoRoll::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0; */ /* Behind notes */
+    /* background-image: repeating-linear-gradient(to right,
+        transparent 0,
+        transparent calc(var(--cell-width-approx) * 3),
+        var(--beat-line-color) calc(var(--cell-width-approx) * 3),
+        var(--beat-line-color) calc(var(--cell-width-approx) * 3 + 1px),
+        transparent calc(var(--cell-width-approx) * 3 + 1px),
+        transparent calc(var(--cell-width-approx) * 4 - 1px)
+    ); */
+    /* This gets very complex to manage beat/measure lines robustly with CSS alone
+       if the number of cells per beat/measure can change.
+       The primary grid for note placement is done by JS setting grid-column on notes.
+    */
+
+
+.note-block {
+    position: relative; /* If we need to put things inside it */
+    background-color: var(--note-block-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    box-sizing: border-box;
+    z-index: 5; /* Above grid lines, below playhead */
+    overflow: hidden; /* For text content */
+
+    /* Text inside note blocks */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7em;
+    color: var(--background-color); /* Dark text on light accent color */
+    font-weight: 500;
+    user-select: none;
+    padding: 0 2px; /* Small padding */
+    white-space: nowrap;
+    text-overflow: clip; /* Or ellipsis if preferred */
+}
+
+.note-block:hover {
+    filter: brightness(1.2);
+}
+
+
+footer {
+    text-align: center;
+    padding: 30px 20px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9em;
+    color: var(--secondary-text-color);
+    margin-top: 40px;
+}
+
+/* Utility classes */
+.hidden {
+    display: none;
+}
+
+/* Responsive adjustments (basic example) */
+@media (max-width: 900px) {
+    .main-content-grid {
+        grid-template-columns: 1fr; /* Stack controls on top of visualizer */
+    }
+    .controls-panel {
+        /* Optional: make controls panel scrollable if too long on small screens */
+        /* max-height: 50vh; */
+        /* overflow-y: auto; */
+    }
+    #pianoKeyboard {
+        /* On smaller screens, we might want a narrower keyboard or fewer octaves */
+        /* This needs careful consideration with JS generation */
+    }
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.6em;
+    }
+    .action-button {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+    .control-section h2 {
+        font-size: 1.1em;
+    }
+    .playback-control-bar {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .playback-control-bar .control-group {
+        width: 100%;
+    }
+     .playback-control-bar input[type="range"] {
+        width: auto; /* Let it take space within its flex group */
+    }
+    .bpm-input-field {
+        width: 50px !important;
+    }
+}
